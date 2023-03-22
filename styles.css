@@ -82,6 +82,19 @@ main {
   border-radius: 5px;
 }
 
+.video-info {
+  margin-top: 10px;
+}
+
+.video-info p {
+  margin: 5px 0;
+}
+
+.video-info strong {
+  font-weight: bold;
+}
+
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .feed-input input {
