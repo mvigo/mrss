@@ -31,8 +31,11 @@ function displayVideos(xmlDoc) {
   const items = xmlDoc.getElementsByTagName('item');
   for (let i = 0; i < items.length; i++) {
     const title = items[i].getElementsByTagName('title')[0].textContent;
+    const pubDate = items[i].getElementsByTagName('pubDate')[0]?.textContent;
     const media = items[i].getElementsByTagName('media:content');
     const thumbnail = items[i].getElementsByTagName('media:thumbnail')[0];
+    const keywords = items[i].getElementsByTagName('media:keywords')[0]?.textContent;
+    const description = items[i].getElementsByTagName('description')[0]?.textContent;
 
     if (media.length > 0) {
       const videoSources = Array.from(media).map(source => ({
@@ -45,19 +48,24 @@ function displayVideos(xmlDoc) {
         <img src="${thumbnail.getAttribute('url')}" alt="${title}">
         <h3>${title}</h3>
       `;
-      listItem.addEventListener('click', () => playVideo(videoSources, title));
+      listItem.addEventListener('click', () => playVideo(videoSources, title, pubDate, keywords, description));
       videoList.appendChild(listItem);
     }
   }
 }
 
-function playVideo(videoSources, title) {
+function playVideo(videoSources, title, pubDate, keywords, description) {
   const player = document.getElementById('player');
   player.innerHTML = `
     <h2>${title}</h2>
     <video controls poster="">
       Your browser does not support the video tag.
     </video>
+    <div class="video-info">
+      <p><strong>Publication Date:</strong> ${pubDate ? pubDate : 'N/A'}</p>
+      <p><strong>Keywords:</strong> ${keywords ? keywords : 'N/A'}</p>
+      <p><strong>Description:</strong> ${description ? description : 'N/A'}</p>
+    </div>
   `;
 
   const videoElement = player.querySelector('video');
