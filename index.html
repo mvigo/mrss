@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Senior Video Viewer</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Senior Video Viewer</h1>
+  </header>
+
+  <main>
+    <section class="feed-input">
+      <label for="feed-url">Enter MRSS Feed URL:</label>
+      <input type="url" id="feed-url" placeholder="https://example.com/feed.xml">
+      <button id="load-feed">Load Feed</button>
+    </section>
+
+    <section class="video-list">
+      <h2>Video List</h2>
+      <ul id="videos">
+        <!-- Video list items will be added here dynamically -->
+      </ul>
+    </section>
+
+    <section class="video-player">
+      <h2>Video Player</h2>
+      <div id="player">
+        <!-- Video player will be added here dynamically -->
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
