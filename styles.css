@@ -1,0 +1,94 @@
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  font-size: 18px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f5f5f5;
+  margin: 0;
+  padding: 0;
+}
+
+/* Header */
+header {
+  background-color: #4CAF50;
+  padding: 20px;
+  text-align: center;
+  color: white;
+}
+
+/* Main */
+main {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 20px;
+}
+
+/* Feed Input */
+.feed-input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.feed-input label {
+  margin-right: 10px;
+}
+
+.feed-input input {
+  width: 70%;
+}
+
+/* Video List */
+.video-list {
+  flex: 1;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.video-list ul {
+  list-style: none;
+  padding: 0;
+}
+
+.video-list li {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 10px;
+  background-color: #fff;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.video-list img {
+  width: 120px;
+  height: 90px;
+  margin-right: 10px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+/* Video Player */
+.video-player {
+  flex: 1;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.video-player video {
+  width: 100%;
+  border-radius: 5px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .feed-input input {
+    width: 60%;
+  }
+
+  .video-list, .video-player {
+    flex-basis: 100%;
+  }
+}
