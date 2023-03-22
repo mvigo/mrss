@@ -31,28 +31,42 @@ function displayVideos(xmlDoc) {
   const items = xmlDoc.getElementsByTagName('item');
   for (let i = 0; i < items.length; i++) {
     const title = items[i].getElementsByTagName('title')[0].textContent;
-    const media = items[i].getElementsByTagName('media:content')[0];
+    const media = items[i].getElementsByTagName('media:content');
     const thumbnail = items[i].getElementsByTagName('media:thumbnail')[0];
 
-    if (media) {
-      const videoUrl = media.getAttribute('url');
+    if (media.length > 0) {
+      const videoSources = Array.from(media).map(source => ({
+        url: source.getAttribute('url'),
+        type: source.getAttribute('type')
+      }));
+
       const listItem = document.createElement('li');
       listItem.innerHTML = `
         <img src="${thumbnail.getAttribute('url')}" alt="${title}">
         <h3>${title}</h3>
       `;
-      listItem.addEventListener('click', () => playVideo(videoUrl, title));
+      listItem.addEventListener('click', () => playVideo(videoSources, title));
       videoList.appendChild(listItem);
     }
   }
 }
 
-function playVideo(videoUrl, title) {
+function playVideo(videoSources, title) {
   const player = document.getElementById('player');
   player.innerHTML = `
     <h2>${title}</h2>
-    <video controls src="${videoUrl}" poster="">
+    <video controls poster="">
       Your browser does not support the video tag.
     </video>
   `;
+
+  const videoElement = player.querySelector('video');
+  videoSources.forEach(source => {
+    const sourceElement = document.createElement('source');
+    sourceElement.src = source.url;
+    sourceElement.type = source.type;
+    videoElement.appendChild(sourceElement);
+  });
+
+  videoElement.load();
 }
