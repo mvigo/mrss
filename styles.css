@@ -41,7 +41,7 @@ button {
 }
 
 #videos li img {
-  width: 220px;
+  width: 240px; /* Updated width for bigger thumbnails */
   height: auto;
   margin-right: 10px;
 }
