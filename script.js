@@ -1,28 +1,16 @@
-document.getElementById('load-feed').addEventListener('click', loadFeed);
-
-async function loadFeed() {
+document.getElementById('load-feed').addEventListener('click', () => {
   const feedUrl = document.getElementById('feed-url').value;
-  if (!feedUrl) {
-    alert('Please enter a valid MRSS feed URL.');
-    return;
-  }
+  if (!feedUrl) return;
 
-  try {
-    const response = await fetch(feedUrl);
-    if (!response.ok) {
-      alert('Error loading the MRSS feed. Please check the URL and try again.');
-      return;
-    }
-
-    const xmlText = await response.text();
-    const parser = new DOMParser();
-    const xmlDoc = parser.parseFromString(xmlText, 'application/xml');
-    displayVideos(xmlDoc);
-  } catch (error) {
-    console.error('Error fetching the MRSS feed:', error);
-    alert('Error loading the MRSS feed. Please check your internet connection and try again.');
-  }
-}
+  fetch(feedUrl)
+    .then(response => response.text())
+    .then(str => new DOMParser().parseFromString(str, "application/xml"))
+    .then(xmlDoc => displayVideos(xmlDoc))
+    .catch(err => {
+      alert('Error loading the MRSS feed. Please check your internet connection and try again.');
+      console.error(err);
+    });
+});
 
 function displayVideos(xmlDoc) {
   const videoList = document.getElementById('videos');
@@ -46,7 +34,10 @@ function displayVideos(xmlDoc) {
       const listItem = document.createElement('li');
       listItem.innerHTML = `
         <img src="${thumbnail.getAttribute('url')}" alt="${title}">
-        <h3>${title}</h3>
+        <div>
+          <h3>${title}</h3>
+          <p>${pubDate ? pubDate : 'N/A'}</p> <!-- Added pubDate below the title -->
+        </div>
       `;
       listItem.addEventListener('click', () => playVideo(videoSources, title, pubDate, keywords, description));
       videoList.appendChild(listItem);
@@ -56,25 +47,28 @@ function displayVideos(xmlDoc) {
 
 function playVideo(videoSources, title, pubDate, keywords, description) {
   const player = document.getElementById('player');
-  player.innerHTML = `
-    <h2>${title}</h2>
-    <video controls poster="">
-      Your browser does not support the video tag.
-    </video>
-    <div class="video-info">
-      <p><strong>Publication Date:</strong> ${pubDate ? pubDate : 'N/A'}</p>
-      <p><strong>Keywords:</strong> ${keywords ? keywords : 'N/A'}</p>
-      <p><strong>Description:</strong> ${description ? description : 'N/A'}</p>
-    </div>
-  `;
+  player.innerHTML = '';
 
-  const videoElement = player.querySelector('video');
-  videoSources.forEach(source => {
+  const video = document.createElement('video');
+  video.controls = true;
+
+  for (const source of videoSources) {
     const sourceElement = document.createElement('source');
     sourceElement.src = source.url;
     sourceElement.type = source.type;
-    videoElement.appendChild(sourceElement);
-  });
+    video.appendChild(sourceElement);
+  }
 
-  videoElement.load();
+  player.appendChild(video);
+  video.play();
+
+  const videoInfo = document.createElement('div');
+  videoInfo.classList.add('video-info');
+  videoInfo.innerHTML = `
+    <p><strong>Title:</strong> ${title}</p>
+    <p><strong>Publication Date:</strong> ${pubDate ? pubDate : 'N/A'}</p>
+    <p><strong>Keywords:</strong> ${keywords ? keywords : 'N/A'}</p>
+    <p><strong>Description:</strong> ${description ? description : 'N/A'}</p>
+  `;
+  player.appendChild(videoInfo);
 }

@@ -21,11 +21,12 @@ button {
 }
 
 .video-list-container {
-  width: 300px;
+  width: 50%; /* Updated width to take up available empty space */
   height: calc(100vh - 100px);
   overflow-y: scroll;
   border-right: 1px solid #f1f1f1;
 }
+
 
 #videos {
   list-style: none;
@@ -41,7 +42,7 @@ button {
 }
 
 #videos li img {
-  width: 60px;
+  width: 220px;
   height: auto;
   margin-right: 10px;
 }
