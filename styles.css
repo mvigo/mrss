@@ -49,6 +49,7 @@ button {
 #player {
   flex: 1;
   padding: 10px;
+  max-width: 600px; /* Add a maximum width to the player column */
 }
 
 video {
